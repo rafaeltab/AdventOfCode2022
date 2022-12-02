@@ -23,9 +23,11 @@ impl Day for DayOne {
 
 		let sums = calulcate_sums(&parsed_data);
 
-		let max = find_max(&sums);
+		let max = find_max_n(&sums, 3);
 
-		println!("Max: {}", max);
+		println!("Max: {}", max[0]);
+
+		println!("Max three: {}", max.iter().map(|x| x.to_string()).collect::<Vec<String>>().join(", "));
 
 	}
 }
@@ -71,13 +73,21 @@ fn calulcate_sums(data: &DayOneData) -> Vec<i32> {
 	return sums;
 }
 
-fn find_max(elves: &Vec<i32>) -> i32 {
-	let mut max = 0;
+fn find_max_n(elves: &Vec<i32>, n: i32) -> Vec<i32> {
+	let mut max: Vec<i32> = Vec::new();
 
-	for elf in elves.iter() {
-		if elf > &max {
-			max = *elf;
-		}
+	for _ in 0..n {
+		max.push(0);
+	}
+
+	for elf in elves {
+		for i in 0..n {
+			if elf > &max[i as usize] {
+				max.insert(i as usize, *elf);
+				max.pop();
+				break;
+			}
+		}		
 	}
 
 	return max;
