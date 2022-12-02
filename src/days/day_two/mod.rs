@@ -70,14 +70,6 @@ fn str_to_move(m: &str) -> RPCMove {
     }
 }
 
-fn move_to_str(m: RPCMove) -> &'static str {
-    return match m {
-        RPCMove::Rock => "Rock",
-        RPCMove::Paper => "Paper",
-        RPCMove::Scissors => "Scissors",
-    };
-}
-
 fn move_to_result(m: &RPCMove) -> RPCResult {
     return match m {
         RPCMove::Rock => RPCResult::Loss,
@@ -102,7 +94,7 @@ fn simulate_step_two(data: &DayTwoData) -> i32 {
     for m in data.matches.iter() {
         let mut round_score = 0;
 
-        let ourMove: RPCMove = match move_to_result(&m.1) {
+        let our_move: RPCMove = match move_to_result(&m.1) {
             RPCResult::Win => match m.0 {
                 RPCMove::Rock => RPCMove::Paper,
                 RPCMove::Paper => RPCMove::Scissors,
@@ -120,7 +112,7 @@ fn simulate_step_two(data: &DayTwoData) -> i32 {
             },
         };
 
-		round_score += simulate_round(&m.0, &ourMove);
+		round_score += simulate_round(&m.0, &our_move);
 
         score += round_score;
     }
